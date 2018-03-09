@@ -3,7 +3,10 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/twitter4j-core-4.0.4.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Desktop/twitter4j-4.0.4/twitter4j-core/twitter4j-core-4.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/twitter4j-core-4.0.4.jar!/" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>
