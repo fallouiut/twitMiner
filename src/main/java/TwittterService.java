@@ -19,7 +19,6 @@ public class TwittterService {
     private Twitter twitter;
 
     public TwittterService(){
-
         this.twitter = new TwitterFactory().getInstance();
         String consumerKey = "etTdQUBxUMRC2RqGAq1yt6Yw8";
         String consumerSecret = "e7bK03FK0reXT1kVauQeraj0T8dg5AGvaQy35Ook1lTEEtwUbu";
@@ -29,16 +28,31 @@ public class TwittterService {
 
         twitter.setOAuthConsumer(consumerKey, consumerSecret);
         twitter.setOAuthAccessToken(new AccessToken(accessToken, accessTockenSecret));
-
     }
 
     public List<Status> getByHashTag(String hashtag) throws TwitterException{
 
-        Query query = new Query("VendrediLecture");
-        query.count(101);
+        Query query = new Query(hashtag);
+        query.count(100);
         QueryResult qres = this.twitter.search(query);
 
         return qres.getTweets();
+
+    }
+
+    public void showTweets(List<Status> tweets){
+
+        int compteur = 0;
+
+        for(Status s: tweets) {
+            System.out.println("@" + s.getUser().getName()  + ", Date: " + s.getCreatedAt().toString());
+            System.out.println(s.getText());
+            System.out.println("-----------------------------------------------------------------------------------------------");
+            ++compteur;
+        }
+
+        System.out.println("Nous avons filtré " + compteur + " tweets");
+
     }
 
 

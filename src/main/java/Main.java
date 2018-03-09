@@ -6,18 +6,15 @@ import twitter4j.auth.AccessToken;
 import java.util.List;
 
 public class Main {
-    public static void main(String args[]){
+    public static void main(String args[]) throws TwitterException{
 
         TwittterService tws = new TwittterService();
 
         int compteur = 0;
         try{
-            for(Status s: tws.getByHashTag("OMBilbao")) {
-                System.out.println("@" + s.getUser().getName() + ": " + s.getText() + " / " + s.getGeoLocation());
-                ++compteur;
-            }
 
-            System.out.println("Il y a eu: " + compteur + " tweets concernant ce hashtag");
+            List<Status> tweets = tws.getByHashTag("OMBilbao");
+            tws.showTweets(tweets);
 
         }
         catch(TwitterException te){
