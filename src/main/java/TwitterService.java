@@ -1,5 +1,6 @@
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,26 +15,40 @@ import java.util.List;
 // Owner ID 969509345313591296
 
 
-public class TwittterService {
+public class TwitterService {
 
     private Twitter twitter;
 
-    public TwittterService(){
-        this.twitter = new TwitterFactory().getInstance();
+    public TwitterService(){
+
         String consumerKey = "etTdQUBxUMRC2RqGAq1yt6Yw8";
         String consumerSecret = "e7bK03FK0reXT1kVauQeraj0T8dg5AGvaQy35Ook1lTEEtwUbu";
         String accessToken = "969509345313591296-PrpHRN2mznGhsk3o3otyPtnovQDjKyY";
         String accessTockenSecret = "2o7adEgNULFJ9aHe1QuSpfmY0rNyT0sJ1onMbfnw1RXxJ";
 
+        ConfigurationBuilder onf = new ConfigurationBuilder();
+                onf.setOAuthConsumerKey(consumerKey)
+                .setOAuthConsumerSecret(consumerSecret)
+                .setOAuthAccessToken(accessToken)
+                .setOAuthAccessTokenSecret(accessTockenSecret)
+                .setTweetModeExtended(true);
 
-        twitter.setOAuthConsumer(consumerKey, consumerSecret);
-        twitter.setOAuthAccessToken(new AccessToken(accessToken, accessTockenSecret));
-    }
+        HttpParameter myParams = new HttpParameter("tweet_mode", "extended");
 
-    public List<Status> getByHashTag(String hashtag) throws TwitterException{
 
+        TwitterFactory tf = new TwitterFactory(onf.build());
+        this.twitter = tf.getInstance();
+ }
+
+    public List<Status> getByHashTag(String hashtag, String since, int nbMax) throws TwitterException{
+        twitter.getUserTimeline();
         Query query = new Query(hashtag);
-        query.count(100);
+
+        if(since != null)
+            query.setSince(since);
+
+
+        query.count(nbMax);
         QueryResult qres = this.twitter.search(query);
 
         return qres.getTweets();
